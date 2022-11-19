@@ -1,4 +1,4 @@
-package org.acme;
+package miranda.quarkus.ifood.cadastro;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
