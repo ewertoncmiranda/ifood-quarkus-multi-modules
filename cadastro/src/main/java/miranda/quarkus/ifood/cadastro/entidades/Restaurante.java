@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -16,27 +17,18 @@ public class Restaurante extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id ;
-
-    private String proprietario;
-
     @CreationTimestamp
     private Date dataCriacao;
-
     @UpdateTimestamp
     private Date dataAtualizacao;
-
-    private String nome ;
-
-    private String cnpj;
-
     @OneToOne
     private Localizacao localizacao;
+    @OneToMany
+    private List<Prato> pratos;
 
-
-
-
-
-
+    private Long id ;
+    private String proprietario;
+    private String nome ;
+    private String cnpj;
 
 }
