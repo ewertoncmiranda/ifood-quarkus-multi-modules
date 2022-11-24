@@ -17,18 +17,15 @@ public class Restaurante extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @CreationTimestamp
-    private Date dataCriacao;
-    @UpdateTimestamp
-    private Date dataAtualizacao;
-    @OneToOne
-    private Localizacao localizacao;
-    @OneToMany
-    private List<Prato> pratos;
-
     private Long id ;
     private String proprietario;
     private String nome ;
     private String cnpj;
+    @CreationTimestamp
+    private Date dataCriacao;
+    @UpdateTimestamp
+    private Date dataAtualizacao;
+    @OneToOne(targetEntity = Localizacao.class)
+    private Localizacao localizacao;
 
 }

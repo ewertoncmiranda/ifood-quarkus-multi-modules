@@ -3,6 +3,7 @@ package miranda.quarkus.ifood.cadastro.controllers;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import miranda.quarkus.ifood.cadastro.entidades.Prato;
 import miranda.quarkus.ifood.cadastro.entidades.Restaurante;
+import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
@@ -14,23 +15,27 @@ import java.util.Optional;
 @Path("/restaurante")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@Tag(name = "restaurante")
 public class RestauranteResource {
 
 
     @GET
+    @Tag(name = "restaurante")
     public List<Restaurante> buscarRestaurante(){
         return Restaurante.listAll();
     }
 
     @POST
     @Transactional
+    @Tag(name = "restaurante")
     public void adicionarRestaurante(Restaurante dto){
         dto.persist();
     }
 
     @PUT
     @Path("/{id}")
-    public boolean atualizar(@PathParam("id") Long id, Restaurante dto){
+    @Tag(name = "restaurante")
+    public boolean atualizarRestaurante(@PathParam("id") Long id, Restaurante dto){
         Optional<Restaurante> restauranteOpt = Restaurante.findByIdOptional(id);
         if(restauranteOpt.isEmpty()) throw new NotFoundException();
         PanacheEntityBase restaurante = restauranteOpt.get();
@@ -38,6 +43,7 @@ public class RestauranteResource {
     }
     @DELETE
     @Path("/{id}")
+    @Tag(name = "restaurante")
     public boolean deletar(@PathParam("/{id}") Long id){
         if( !Restaurante.findByIdOptional(id).isEmpty()) Restaurante.deleteById(id);
         throw new NotFoundException();
@@ -45,6 +51,7 @@ public class RestauranteResource {
 
     @GET
     @Path("/{idRestaurante}/pratos")
+    @Tag(name = "prato")
     public List<Prato> buscarPratos(@PathParam("idRestaurante") Long idRestaurante){
         Optional<Restaurante> restauranteOpt = Restaurante.findByIdOptional(idRestaurante);
         if(restauranteOpt.isEmpty()) throw new NotFoundException();
@@ -54,6 +61,7 @@ public class RestauranteResource {
     @POST
     @Path("{idRestaurante}/pratos")
     @Transactional
+    @Tag(name = "prato")
     public Response adicionarPrato(@PathParam("idRestaurante") Long idRestaurante ,Prato dto){
         Optional<Restaurante> restauranteOp = Restaurante.findByIdOptional(idRestaurante);
         if(restauranteOp.isEmpty()) throw new NotFoundException();
@@ -72,6 +80,7 @@ public class RestauranteResource {
     @PUT
     @Path("{/idRestaurante}/pratos/{id}")
     @Transactional
+    @Tag(name = "prato")
     public void atualizarPratos(@PathParam("idRestaurante") Long idRestaurante ,@PathParam("id") Long id, Prato dto){
         Optional<Restaurante> restauranteOp = Restaurante.findByIdOptional(idRestaurante);
         if(restauranteOp.isEmpty()) throw new NotFoundException("Restaurante não existe.");
@@ -88,6 +97,7 @@ public class RestauranteResource {
 
     @DELETE
     @Path("/{idRestaurante}/pratos/{idPrato}")
+    @Tag(name = "prato")
     public boolean deletarPrato(@PathParam("idRestaurante") Long idRestaurante , @PathParam("idPrato") Long idPrato){
         Optional<Restaurante> restauranteOp = Restaurante.findByIdOptional(idRestaurante);
         if(restauranteOp.isEmpty()) throw new NotFoundException("Restaurante não existe.");
@@ -96,17 +106,5 @@ public class RestauranteResource {
         pratoOpt.get().delete();
         return true;
     }
-    @DELETE
-    @Path("/{idRestaurante}")
-    public boolean deletarRestaurante(@PathParam("idRestaurante") Long idRestaurante){
-        Optional<Restaurante> restauranteOp = Restaurante.findByIdOptional(idRestaurante);
-        if(restauranteOp.isEmpty()) throw new NotFoundException("Restaurante não existe.");
-        restauranteOp.get().delete();
-        return true;
-    }
-
-
-
-
 
 }
