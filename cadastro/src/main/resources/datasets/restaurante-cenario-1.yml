@@ -1,0 +1,8 @@
+restaurante:
+  - id: "1"
+    nome: "teste"
+    proprietario: "teste"
+  - id: "2"
+    nome: "teste"
+    proprietario: "teste"
+    
