@@ -8,6 +8,7 @@ import javax.persistence.*;
 
 @Entity
 @Data
+@Table(name = "localizacao")
 public class Localizacao  extends PanacheEntityBase {
 
     @Id

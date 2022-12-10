@@ -25,7 +25,7 @@ public class Restaurante extends PanacheEntityBase {
     private Date dataCriacao;
     @UpdateTimestamp
     private Date dataAtualizacao;
-    @OneToOne(targetEntity = Localizacao.class)
+    @OneToOne(cascade = CascadeType.ALL)
     private Localizacao localizacao;
 
 }

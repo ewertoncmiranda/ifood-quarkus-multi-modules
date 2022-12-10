@@ -1,10 +1,13 @@
 package miranda.quarkus.ifood.cadastro.controllers;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+import miranda.quarkus.ifood.cadastro.dto.AdicionarRestauranteDTO;
 import miranda.quarkus.ifood.cadastro.entidades.Prato;
 import miranda.quarkus.ifood.cadastro.entidades.Restaurante;
+import miranda.quarkus.ifood.cadastro.tools.RestauranteMapper;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
+import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -18,6 +21,8 @@ import java.util.Optional;
 @Tag(name = "restaurante")
 public class RestauranteResource {
 
+    @Inject
+    RestauranteMapper  restauranteMapper;
 
     @GET
     @Tag(name = "restaurante")
@@ -28,18 +33,20 @@ public class RestauranteResource {
     @POST
     @Transactional
     @Tag(name = "restaurante")
-    public void adicionarRestaurante(Restaurante dto){
-        dto.persist();
+    public Response adicionarRestaurante(AdicionarRestauranteDTO dto){
+        restauranteMapper.toRestaurante(dto).persistAndFlush();
+        return Response.status(Response.Status.CREATED).build();
     }
 
     @PUT
     @Path("/{id}")
     @Tag(name = "restaurante")
-    public boolean atualizarRestaurante(@PathParam("id") Long id, Restaurante dto){
+    public Response atualizarRestaurante(@PathParam("id") Long id, Restaurante dto){
         Optional<Restaurante> restauranteOpt = Restaurante.findByIdOptional(id);
         if(restauranteOpt.isEmpty()) throw new NotFoundException();
         PanacheEntityBase restaurante = restauranteOpt.get();
-        return  true;
+
+        return  Response.status(204).build();
     }
     @DELETE
     @Path("/{id}")
