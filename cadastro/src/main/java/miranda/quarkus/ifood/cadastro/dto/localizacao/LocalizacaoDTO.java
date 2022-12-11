@@ -1,4 +1,4 @@
-package miranda.quarkus.ifood.cadastro.dto;
+package miranda.quarkus.ifood.cadastro.dto.localizacao;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

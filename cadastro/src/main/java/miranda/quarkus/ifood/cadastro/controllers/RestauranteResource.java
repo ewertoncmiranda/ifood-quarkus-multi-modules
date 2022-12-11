@@ -1,9 +1,9 @@
 package miranda.quarkus.ifood.cadastro.controllers;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
-import miranda.quarkus.ifood.cadastro.dto.AdicionarRestauranteDTO;
-import miranda.quarkus.ifood.cadastro.dto.AtualizarRestauranteDTO;
-import miranda.quarkus.ifood.cadastro.dto.RestauranteResponse;
+import miranda.quarkus.ifood.cadastro.dto.prato.PratoDTO;
+import miranda.quarkus.ifood.cadastro.dto.restaurante.AdicionarRestauranteDTO;
+import miranda.quarkus.ifood.cadastro.dto.restaurante.AtualizarRestauranteDTO;
+import miranda.quarkus.ifood.cadastro.dto.restaurante.RestauranteResponse;
 import miranda.quarkus.ifood.cadastro.entidades.Prato;
 import miranda.quarkus.ifood.cadastro.entidades.Restaurante;
 import miranda.quarkus.ifood.cadastro.tools.PratoMapper;
@@ -84,14 +84,11 @@ public class RestauranteResource {
     @Path("{idRestaurante}/pratos")
     @Transactional
     @Tag(name = "prato")
-    public Response adicionarPrato(@PathParam("idRestaurante") Long idRestaurante ,Prato dto){
+    public Response adicionarPrato(@PathParam("idRestaurante") Long idRestaurante , PratoDTO dto){
         Optional<Restaurante> restauranteOp = Restaurante.findByIdOptional(idRestaurante);
         if(restauranteOp.isEmpty()) throw new NotFoundException();
 
-        Prato prato = new Prato();
-        prato.setNome(dto.getNome());
-        prato.setDescricao(dto.getDescricao());
-        prato.setValor(dto.getValor());
+        Prato prato = pratoMapper.toPrato(dto);
         prato.setRestaurante(restauranteOp.get());
 
         prato.persistAndFlush();
@@ -100,33 +97,31 @@ public class RestauranteResource {
 
 
     @PUT
-    @Path("{/idRestaurante}/pratos/{id}")
+    @Path("{/idRestaurante}/prato/{id}")
     @Transactional
     @Tag(name = "prato")
-    public void atualizarPratos(@PathParam("idRestaurante") Long idRestaurante ,@PathParam("id") Long id, Prato dto){
+    public Response atualizarPratos(@PathParam("idRestaurante") Long idRestaurante ,@PathParam("id") Long id, PratoDTO dto){
         Optional<Restaurante> restauranteOp = Restaurante.findByIdOptional(idRestaurante);
         if(restauranteOp.isEmpty()) throw new NotFoundException("Restaurante não existe.");
+
         Optional<Prato> pratoOpt = Prato.findByIdOptional(id);
-
         if(pratoOpt.isEmpty())  throw new NotFoundException("Prato não existe.");
-        Prato prato = pratoOpt.get();
-        prato.setDescricao(dto.getDescricao());
-        prato.setNome(dto.getNome());
-        prato.setValor(dto.getValor());
 
-        prato.persistAndFlush();
+        pratoMapper.toPrato(dto).persistAndFlush();
+        return  Response.accepted().build();
     }
 
     @DELETE
-    @Path("/{idRestaurante}/pratos/{idPrato}")
+    @Path("/{idRestaurante}/prato/{idPrato}")
     @Tag(name = "prato")
-    public boolean deletarPrato(@PathParam("idRestaurante") Long idRestaurante , @PathParam("idPrato") Long idPrato){
+    @Transactional
+    public Response deletarPrato(@PathParam("idRestaurante") Long idRestaurante , @PathParam("idPrato") Long idPrato){
         Optional<Restaurante> restauranteOp = Restaurante.findByIdOptional(idRestaurante);
         if(restauranteOp.isEmpty()) throw new NotFoundException("Restaurante não existe.");
         Optional<Prato> pratoOpt = Prato.findByIdOptional(idPrato);
         if(pratoOpt.isEmpty())  throw new NotFoundException("Prato não existe.");
         pratoOpt.get().delete();
-        return true;
+        return Response.noContent().build();
     }
 
 }

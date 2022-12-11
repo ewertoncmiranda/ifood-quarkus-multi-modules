@@ -1,6 +1,6 @@
 package miranda.quarkus.ifood.cadastro.tools;
 
-import miranda.quarkus.ifood.cadastro.dto.LocalizacaoDTO;
+import miranda.quarkus.ifood.cadastro.dto.localizacao.LocalizacaoDTO;
 import miranda.quarkus.ifood.cadastro.entidades.Localizacao;
 import org.mapstruct.Mapper;
 

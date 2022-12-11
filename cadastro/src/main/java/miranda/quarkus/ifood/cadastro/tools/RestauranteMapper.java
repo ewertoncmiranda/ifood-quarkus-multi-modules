@@ -1,8 +1,8 @@
 package miranda.quarkus.ifood.cadastro.tools;
 
-import miranda.quarkus.ifood.cadastro.dto.AdicionarRestauranteDTO;
-import miranda.quarkus.ifood.cadastro.dto.AtualizarRestauranteDTO;
-import miranda.quarkus.ifood.cadastro.dto.RestauranteResponse;
+import miranda.quarkus.ifood.cadastro.dto.restaurante.AdicionarRestauranteDTO;
+import miranda.quarkus.ifood.cadastro.dto.restaurante.AtualizarRestauranteDTO;
+import miranda.quarkus.ifood.cadastro.dto.restaurante.RestauranteResponse;
 import miranda.quarkus.ifood.cadastro.entidades.Restaurante;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
