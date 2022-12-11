@@ -19,7 +19,4 @@ public class Prato  extends PanacheEntityBase {
 
     @ManyToOne
     private Restaurante restaurante ;
-
-    private Double longitude ;
-
 }

@@ -5,10 +5,11 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class AdicionarRestauranteDTO {
-    private String proprietario;
-    private String nomeFantasia ;
-    private String cnpj;
-    private LocalizacaoDTO localizacao;
+public class RestauranteResponse {
 
+    private Long id ;
+    private String nome ;
+    private String cnpj;
+
+    private LocalizacaoDTO localizacao;
 }
