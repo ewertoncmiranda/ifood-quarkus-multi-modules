@@ -12,6 +12,7 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -45,7 +46,7 @@ public class RestauranteResource {
     @POST
     @Transactional
     @Tag(name = "restaurante")
-    public Response adicionarRestaurante(AdicionarRestauranteDTO dto){
+    public Response adicionarRestaurante(@Valid AdicionarRestauranteDTO dto){
         Restaurante restaurante = restauranteMapper.toRestaurante(dto);
         restaurante.persistAndFlush();
         return Response.status(Response.Status.CREATED).build();
